@@ -23,41 +23,20 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
         public static int FindDigit(string equation)
         {
             // Add your code here.
-		 float n1, n2, ans;
-            String temp1 = null, temp2 = null;
-            int p = equation.Length;
-            var x = equation.IndexOf('*');
-            var a = equation.Substring(0, x);
-            var y = equation.IndexOf('=');
-            //Console.WriteLine(y);
-            y = y - x - 1;
-            var b = equation.Substring(x + 1, y);
-            y = equation.IndexOf('=');
-            var z = p - y;
-            var c = equation.Substring(y + 1, z - 1);
+            float n1, n2, ans;
+            string temp1, temp2, a, b, c;
+            CalculatingIndexForSubstr(equation, out temp1, out temp2, out a, out b, out c);
             if (c.Contains('?'))
             {
-                n1 = float.Parse(a);
-                n2 = float.Parse(b);
-                ans = n1 * n2;
-                temp1 = ans.ToString();
-                temp2 = c.ToString();
+                MissingCharInC(out n1, out n2, out ans, out temp1, out temp2, a, b, c);
             }
             else if (a.Contains('?'))
             {
-                n1 = float.Parse(b);
-                n2 = float.Parse(c);
-                ans = n2 / n1;
-                temp1 = ans.ToString();
-                temp2 = a.ToString();
+                MissingCharInA(out n1, out n2, out ans, out temp1, out temp2, a, b, c);
             }
             else if (b.Contains('?'))
             {
-                n1 = float.Parse(a);
-                n2 = float.Parse(c);
-                ans = n2 / n1;
-                temp1 = ans.ToString();
-                temp2 = b.ToString();
+                MissingCharInB(out n1, out n2, out ans, out temp1, out temp2, a, b, c);
             }
             if (temp1.Length == temp2.Length)
             {
@@ -73,8 +52,52 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             {
                 return -1;
             }
-      
+
             throw new NotImplementedException();
+        }
+
+        private static void MissingCharInB(out float n1, out float n2, out float ans, out string temp1, out string temp2, string a, string b, string c)
+        {
+            n1 = float.Parse(a);
+            n2 = float.Parse(c);
+            ans = n2 / n1;
+            temp1 = ans.ToString();
+            temp2 = b.ToString();
+        }
+
+        private static void MissingCharInA(out float n1, out float n2, out float ans, out string temp1, out string temp2, string a, string b, string c)
+        {
+            n1 = float.Parse(b);
+            n2 = float.Parse(c);
+            ans = n2 / n1;
+            temp1 = ans.ToString();
+            temp2 = a.ToString();
+        }
+
+        private static void MissingCharInC(out float n1, out float n2, out float ans, out string temp1, out string temp2, string a, string b, string c)
+        {
+            n1 = float.Parse(a);
+            n2 = float.Parse(b);
+            ans = n1 * n2;
+            temp1 = ans.ToString();
+            temp2 = c.ToString();
+        }
+
+        private static void CalculatingIndexForSubstr(string equation, out string temp1, out string temp2, out string a, out string b, out string c)
+        {
+            float n1, n2, ans;
+            temp1 = null;
+            temp2 = null;
+            int p = equation.Length;
+            var x = equation.IndexOf('*');
+            a = equation.Substring(0, x);
+            var y = equation.IndexOf('=');
+            //Console.WriteLine(y);
+            y = y - x - 1;
+            b = equation.Substring(x + 1, y);
+            y = equation.IndexOf('=');
+            var z = p - y;
+            c = equation.Substring(y + 1, z - 1);
         }
     }
 }
